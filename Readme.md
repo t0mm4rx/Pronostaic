@@ -21,10 +21,10 @@ Here is the list of inputs given to a team network :
 ## TODO
 - [ ] Get last results
 - [ ] Create a formal team list
-- [ ] Get the last five results of team
-- [ ] Get the last five results of team at a given date
-- [ ] Get the last five results of team against opponent
-- [ ] Get the last five results of team against opponent at a given date
+- [x] Get the last five results of team
+- [x] Get the last five results of team at a given date
+- [x] Get the last five results of team against opponent
+- [x] Get the last five results of team against opponent at a given date
 - [ ] Get a team current standing
 - [ ] Get a team current standing at a given date
 - [ ] Get a team current FIFA rating

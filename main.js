@@ -6,4 +6,6 @@ data.load();
 
 console.log('--- Pronostaic ---');
 
-console.log(data.getLastFiveResultsAt('13/11/13', teams.Lyon));
+// console.log(data.getLastFiveResultsAt('2013-02-05', teams.Lyon));
+
+// console.log(data.getLastFiveResultsAgainstAt('2018-02-05', teams.Lyon, teams.Marseille));
