@@ -1,4 +1,6 @@
-const fs = require('fs')
+const fs = require('fs');
+const request = require('request');
+const cheerio = require('cheerio');
 
 module.exports.seasons = [];
 
@@ -68,4 +70,33 @@ module.exports.getLastFiveResultsAgainstAt = function ( date, team, opponent ) {
       }
   }
   return [];
+}
+
+module.exports.getLastFiveResults = function ( team, callback ) {
+  // https://www.lequipe.fr/Football/FootballFicheClub22.html
+  const URL = "https://www.lequipe.fr/Football/FootballFicheClub" + team.lequipeId + ".html";
+  request(URL, function(error, response, body) {
+    if (error) {
+      callback("Unable to get : " + URL + ". Faking 5 last results.")
+      return ['d', 'd', 'd', 'd', 'd'];
+    }
+    var doc = cheerio.load(body);
+    var five = [];
+    for (var i = 0; i < 5; i++) {
+      // console.log(doc('#LASTMATCHS .fc_match .fc_m_score').eq(i).html());
+      var isWin = doc('#LASTMATCHS .fc_match .fc_m_score').eq(i).hasClass('victoire');
+      var isDefeat = doc('#LASTMATCHS .fc_match .fc_m_score').eq(i).hasClass('defaite');
+      var res = 'w';
+      if (isDefeat) {
+        res = 'l';
+      } else if (!isDefeat && !isWin) {
+        res = 'd';
+      }
+      five.push(res);
+    }
+    callback(five);
+  });
+  // #LASTMATCHS
+  // .fc_match
+  // .fc_m_score .defaite ou .victoire
 }

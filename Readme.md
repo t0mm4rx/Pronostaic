@@ -19,8 +19,8 @@ Here is the list of inputs given to a team network :
   * Away / Home (0 => Away or 1 => Home)
 
 ## TODO
-- [ ] Get last results
-- [ ] Create a formal team list
+- [x] Get last results
+- [x] Create a formal team list
 - [x] Get the last five results of team
 - [x] Get the last five results of team at a given date
 - [x] Get the last five results of team against opponent
