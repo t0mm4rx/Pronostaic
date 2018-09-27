@@ -1,22 +1,22 @@
 # Pronostaic
 
 ## What is it ?
-This project goal is to create an AI able to predict the french football league results.
-The final goal is to give as an input a game ('Marseille - Lyon'), then the neural network gives as the output H/D/A (Home / Draw / Away).
+This project goal is to create an AI able to predict the french football league (Ligue 1) results.
+The final goal is to give as an input a game ('Marseille - Lyon'), then the neural network gives as output win accuracy over 1.
 
 ## How it works ?
 Every L1 team will have it's own network. As the input we give a bunch of params, listed further, and the neural network gives a prediction of the win luck. Every networks will be train with the past 9 seasons.
 
 ## Data
 Here is the list of inputs given to a team network :
-  * Current team FIFA rating (over 99)
-  * Opponent FIFA rating (over 99)
-  * Last 5 games win % (0 to 5)
-  * Last 5 games win % against opponent (0 to 5)
-  * Current standing (over 20)
-  * Current opponent standing (over 20)
-  * Opponent scored / conceded %
-  * Away / Home (0 => Away or 1 => Home)
+  * Current team FIFA rating => integer 0-99
+  * Opponent FIFA rating => integer 0-99
+  * Last 5 games => ['l', 'd', 'w', 'w', 'd']
+  * Last 5 games against opponent => ['l', 'd', 'w', 'w', 'd']
+  * Current standing => integer 1-20
+  * Current opponent standing => integer 1-20
+  * Opponent scored / conceded => integer
+  * Away / Home 0 => Away or 1 => Home
 
 ## TODO
 - [x] Get last results
