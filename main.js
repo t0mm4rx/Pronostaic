@@ -14,3 +14,7 @@ console.log('--- Pronostaic ---');
 /* data.getLastFiveResults(teams.Lyon, function (res) {
   console.log(res);
 });*/
+
+data.getFIFARating(team.Lyon, function (res) {
+  console.log(res);
+});

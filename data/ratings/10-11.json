@@ -1,1 +1,101 @@
-[{"name":"OL","general":80,"att":82,"def":80},{"name":"OM","general":78,"att":79,"def":79},{"name":"Bordeaux","general":77,"att":76,"def":79},{"name":"PSG","general":76,"att":78,"def":75},{"name":"LOSC","general":76,"att":77,"def":74},{"name":"AS Monaco FC","general":74,"att":73,"def":72},{"name":"AJ Auxerre","general":73,"att":77,"def":76},{"name":"Toulouse FC","general":73,"att":76,"def":73},{"name":"Stade Rennais","general":72,"att":75,"def":72},{"name":"OGC Nice","general":72,"att":74,"def":70},{"name":"Montpellier HSC","general":72,"att":72,"def":73},{"name":"A.S.S.E.","general":72,"att":72,"def":72},{"name":"FC Lorient","general":71,"att":73,"def":71},{"name":"SM Caen","general":70,"att":73,"def":71},{"name":"RC Lens","general":70,"att":71,"def":70},{"name":"Valenciennes FC","general":70,"att":70,"def":71},{"name":"ASNL","general":69,"att":72,"def":68},{"name":"Arles-Avignon","general":69,"att":72,"def":65},{"name":"FC Sochaux","general":69,"att":68,"def":69},{"name":"Stade Brestois","general":68,"att":68,"def":67}]
+[{
+  "name": "Lyon",
+  "general": 80,
+  "att": 82,
+  "def": 80
+}, {
+  "name": "Marseille",
+  "general": 78,
+  "att": 79,
+  "def": 79
+}, {
+  "name": "Bordeaux",
+  "general": 77,
+  "att": 76,
+  "def": 79
+}, {
+  "name": "Paris",
+  "general": 76,
+  "att": 78,
+  "def": 75
+}, {
+  "name": "Lille",
+  "general": 76,
+  "att": 77,
+  "def": 74
+}, {
+  "name": "Monaco",
+  "general": 74,
+  "att": 73,
+  "def": 72
+}, {
+  "name": "Auxerre",
+  "general": 73,
+  "att": 77,
+  "def": 76
+}, {
+  "name": "Toulouse",
+  "general": 73,
+  "att": 76,
+  "def": 73
+}, {
+  "name": "Rennes",
+  "general": 72,
+  "att": 75,
+  "def": 72
+}, {
+  "name": "Nice",
+  "general": 72,
+  "att": 74,
+  "def": 70
+}, {
+  "name": "Montpellier",
+  "general": 72,
+  "att": 72,
+  "def": 73
+}, {
+  "name": "St Etienne",
+  "general": 72,
+  "att": 72,
+  "def": 72
+}, {
+  "name": "Lorient",
+  "general": 71,
+  "att": 73,
+  "def": 71
+}, {
+  "name": "Caen",
+  "general": 70,
+  "att": 73,
+  "def": 71
+}, {
+  "name": "Lens",
+  "general": 70,
+  "att": 71,
+  "def": 70
+}, {
+  "name": "Valenciennes",
+  "general": 70,
+  "att": 70,
+  "def": 71
+}, {
+  "name": "Nancy",
+  "general": 69,
+  "att": 72,
+  "def": 68
+}, {
+  "name": "Arles",
+  "general": 69,
+  "att": 72,
+  "def": 65
+}, {
+  "name": "Sochaux",
+  "general": 69,
+  "att": 68,
+  "def": 69
+}, {
+  "name": "Brestes",
+  "general": 68,
+  "att": 68,
+  "def": 67
+}]

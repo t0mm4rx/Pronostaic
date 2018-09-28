@@ -1,1 +1,101 @@
-[{"name":"Paris","general":83,"att":84,"def":82},{"name":"AS Monaco","general":77,"att":77,"def":77},{"name":"OL","general":77,"att":77,"def":77},{"name":"OM","general":76,"att":77,"def":74},{"name":"ASSE","general":76,"att":74,"def":76},{"name":"Stade Rennais","general":75,"att":76,"def":75},{"name":"LOSC","general":75,"att":75,"def":76},{"name":"Girondins de BX","general":74,"att":75,"def":74},{"name":"OGC Nice","general":74,"att":74,"def":74},{"name":"Toulouse FC","general":73,"att":77,"def":70},{"name":"EA Guingamp","general":73,"att":73,"def":72},{"name":"Montpellier HSC","general":73,"att":70,"def":74},{"name":"FC Lorient","general":72,"att":74,"def":72},{"name":"FC Nantes","general":72,"att":73,"def":72},{"name":"Stade de Reims","general":72,"att":73,"def":70},{"name":"SM Caen","general":71,"att":71,"def":72},{"name":"Angers SCO","general":71,"att":70,"def":71},{"name":"SC Bastia","general":71,"att":70,"def":71},{"name":"ESTAC Troyes","general":69,"att":69,"def":67},{"name":"GFC Ajaccio","general":68,"att":67,"def":68}]
+[{
+  "name": "Paris",
+  "general": 83,
+  "att": 84,
+  "def": 82
+}, {
+  "name": "Monaco",
+  "general": 77,
+  "att": 77,
+  "def": 77
+}, {
+  "name": "Lyon",
+  "general": 77,
+  "att": 77,
+  "def": 77
+}, {
+  "name": "Marseille",
+  "general": 76,
+  "att": 77,
+  "def": 74
+}, {
+  "name": "St Etienne",
+  "general": 76,
+  "att": 74,
+  "def": 76
+}, {
+  "name": "Rennes",
+  "general": 75,
+  "att": 76,
+  "def": 75
+}, {
+  "name": "Lille",
+  "general": 75,
+  "att": 75,
+  "def": 76
+}, {
+  "name": "Bordeaux",
+  "general": 74,
+  "att": 75,
+  "def": 74
+}, {
+  "name": "Nice",
+  "general": 74,
+  "att": 74,
+  "def": 74
+}, {
+  "name": "Toulouse",
+  "general": 73,
+  "att": 77,
+  "def": 70
+}, {
+  "name": "Guingamp",
+  "general": 73,
+  "att": 73,
+  "def": 72
+}, {
+  "name": "Montpellier",
+  "general": 73,
+  "att": 70,
+  "def": 74
+}, {
+  "name": "Lorient",
+  "general": 72,
+  "att": 74,
+  "def": 72
+}, {
+  "name": "Nantes",
+  "general": 72,
+  "att": 73,
+  "def": 72
+}, {
+  "name": "Reims",
+  "general": 72,
+  "att": 73,
+  "def": 70
+}, {
+  "name": "Caen",
+  "general": 71,
+  "att": 71,
+  "def": 72
+}, {
+  "name": "Angers",
+  "general": 71,
+  "att": 70,
+  "def": 71
+}, {
+  "name": "Bastia",
+  "general": 71,
+  "att": 70,
+  "def": 71
+}, {
+  "name": "Troyes",
+  "general": 69,
+  "att": 69,
+  "def": 67
+}, {
+  "name": "Ajaccio",
+  "general": 68,
+  "att": 67,
+  "def": 68
+}]
