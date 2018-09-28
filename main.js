@@ -15,6 +15,6 @@ console.log('--- Pronostaic ---');
   console.log(res);
 });*/
 
-data.getFIFARating(team.Lyon, function (res) {
+/*data.getFIFARatingAt(teams.Lyon, '15-16', function (res) {
   console.log(res);
-});
+});*/

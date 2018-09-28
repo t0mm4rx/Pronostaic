@@ -29,9 +29,9 @@ Here is the list of inputs given to a team network :
 - [x] Get the last five results of team at a given date
 - [x] Get the last five results of team against opponent
 - [x] Get the last five results of team against opponent at a given date
+- [x] Get a team current FIFA rating
+- [x] Get a team current FIFA rating  at a given date
 - [ ] Get a team current standing
 - [ ] Get a team current standing at a given date
-- [ ] Get a team current FIFA rating
-- [ ] Get a team current FIFA rating  at a given date
 - [ ] Get a team current scored / conceded %
 - [ ] Get a team current scored / conceded %  at a given date

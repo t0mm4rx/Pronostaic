@@ -1,6 +1,7 @@
 const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio');
+const files = require('./Files');
 
 module.exports.seasons = [];
 
@@ -99,4 +100,22 @@ module.exports.getLastFiveResults = function ( team, callback ) {
   // #LASTMATCHS
   // .fc_match
   // .fc_m_score .defaite ou .victoire
+}
+
+module.exports.getFIFARatingAt = function ( team, season, callback ) {
+  files.read('data/ratings/' + season + ".json", function (res) {
+    var json = JSON.parse(res);
+    for (var i = 0; i < json.length; i++) {
+        if (json[i].name === team.toString()) {
+            callback(json[i]);
+            return;
+        }
+    }
+    console.error('No FIFA rating for ' + team.toString() + ' season ' + season);
+    callback({name: 'Unfound', att: 70, def: 70, gen: 70});
+  });
+}
+
+module.exports.getFIFARating = function ( team, callback ) {
+    module.exports.getFIFARatingAt(team, '18-19', callback);
 }
