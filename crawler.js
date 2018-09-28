@@ -4,29 +4,19 @@ const files = require('./Files');
 
 // Crawl the standings of seasons at x day
 module.exports.crawlStandings = function() {
-  const URL = 'http://www.foot-national.com/&&&1-classement-ligue1-type-general-journees-1-&&&2.html';
-
-  for (var i = 0; i < 1; i++) {
-    var url = URL.replace(/&&&1/, '2017-2018');
-    var url = URL.replace(/&&&2/, i);
-    request(URL, function(error, response, body) {
-      if (error) {
-        console.error(error);
-        exit(0);
-      }
-      files.output('Result.html', body);
-      var doc = cheerio.load(body);
-      console.log(doc('#classement').html());
-      var res = [];
-      for (var x = 0; x < 20; x++) {
-        res.push({
-          standing: parseInt(doc("#classement tbody tr .t0").eq(i + 1).text()),
-          goal_average: doc("#classement tbody tr .t10").eq(i + 1).text()
-        });
-      }
-      console.log(res);
-
-    });
+  const URL = 'https://www.lfp.fr/ligue1/classement?sai=&&&1&journee1=1&journee2=';
+  for (var s = 100; s < 102; s++) {
+    for (var j = 1; j < 39; j++) {
+      var url = URL.replace(/&&&1/, s) + j;
+      (function(x, y, z) {
+        setTimeout(function() {
+          console.log(x);
+          request(x, function(error, response, body) {
+            files.output('data/standings/standings_html/' + y + "-" + z + ".html", body);
+          });
+        }, j * 5000);
+      })(url, s, j);
+    }
   }
 
 }
