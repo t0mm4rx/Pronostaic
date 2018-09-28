@@ -10,7 +10,11 @@ Every L1 team will have it's own network. As the input we give a bunch of params
 ## Data
 Here is the list of inputs given to a team network :
   * Current team FIFA rating => integer 0-99
+  * Current team FIFA defense rating => integer 0-99
+  * Current team FIFA attack rating => integer 0-99
   * Opponent FIFA rating => integer 0-99
+  * Opponent FIFA defense rating => integer 0-99
+  * Opponent FIFA attack rating => integer 0-99
   * Last 5 games => ['l', 'd', 'w', 'w', 'd']
   * Last 5 games against opponent => ['l', 'd', 'w', 'w', 'd']
   * Current standing => integer 1-20

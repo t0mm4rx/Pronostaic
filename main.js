@@ -1,6 +1,6 @@
 const data = require('./DataFetcher');
 const teams = require('./Teams');
-const standings = require('./StandingsGenerator');
+const crawler = require('./Crawler');
 
 console.log('Loading...');
 data.load();
@@ -14,5 +14,3 @@ console.log('--- Pronostaic ---');
 /* data.getLastFiveResults(teams.Lyon, function (res) {
   console.log(res);
 });*/
-
-standings.generate();
