@@ -22,6 +22,38 @@ Here is the list of inputs given to a team network :
   * Opponent scored / conceded => integer
   * Away / Home 0 => Away or 1 => Home
 
+## Data Class
+```js
+  const data = require('./DataFetcher');
+  const teams = require('./Teams');
+
+  // Get the last five results in L1 for given team at given date, for training
+  console.log(data.getLastFiveResultsAt('2013-02-05', teams.Lyon));
+
+  // Get the last five results against a given team in L1 for given team at given date, for training
+  console.log(data.getLastFiveResultsAgainstAt('2018-02-05', teams.Lyon, teams.Marseille));
+
+  // Get the last five results in L1 for given team, for guessing
+  data.getLastFiveResults(teams.Lyon, function (res) {
+    console.log(res);
+  });
+
+  // Get the last five results against a given team in L1 for given team, for guessing
+  data.getFIFARatingAt(teams.Lyon, '15-16', function (res) {
+    console.log(res);
+  });
+
+  // Get standing and goal average for given team at given season and day (over 38)
+  data.getStandingAt(teams.Toulouse, '16-17', 38, function (res) {
+    console.log(res);
+  });
+
+  // Get standing and goal average  for given team
+  data.getStanding(teams.Marseille, function (res) {
+    console.log(res);
+  });
+```
+
 ## TODO
 - [x] Get last results
 - [x] Create a formal team list
@@ -31,7 +63,7 @@ Here is the list of inputs given to a team network :
 - [x] Get the last five results of team against opponent at a given date
 - [x] Get a team current FIFA rating
 - [x] Get a team current FIFA rating  at a given date
-- [ ] Get a team current standing
-- [ ] Get a team current standing at a given date
-- [ ] Get a team current scored / conceded %
-- [ ] Get a team current scored / conceded %  at a given date
+- [x] Get a team current standing at a given date
+- [x] Get a team current scored / conceded %  at a given date
+- [x] Get a team current standing
+- [x] Get a team current scored / conceded %

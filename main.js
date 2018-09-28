@@ -1,6 +1,6 @@
 const data = require('./DataFetcher');
 const teams = require('./Teams');
-const crawler = require('./Crawler');
+const standings = require('./StandingsGenerator');
 
 console.log('Loading...');
 data.load();
@@ -19,4 +19,12 @@ console.log('--- Pronostaic ---');
   console.log(res);
 });*/
 
-crawler.crawlStandings();
+// standings.generate();
+
+/*data.getStandingAt(teams.Toulouse, '16-17', 38, function (res) {
+  console.log(res);
+});*/
+
+data.getStanding(teams.Marseille, function (res) {
+  console.log(res);
+});
