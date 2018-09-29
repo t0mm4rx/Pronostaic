@@ -1,3 +1,7 @@
+/**************************
+  This class format downloaded HTML standings as clean JSON
+**************************/
+
 const files = require('./Files');
 const cheerio = require('cheerio');
 

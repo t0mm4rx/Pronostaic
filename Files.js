@@ -17,3 +17,11 @@ module.exports.read = function(filename, callback) {
     callback(data);
   });
 }
+
+module.exports.readSync = function (filename) {
+  return fs.readFileSync(filename).toString();
+}
+
+module.exports.exists = function (file) {
+    return fs.existsSync(file);
+}

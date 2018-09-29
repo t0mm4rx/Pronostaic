@@ -1,3 +1,9 @@
+/**************************
+  This class download data for training
+    - crawlStandings --> download as HTML all standings for each day for past nine seasons
+    - crawlFIFARatings --> download and format as JSON FIFA ratings for past nine seasons
+**************************/
+
 const request = require('request');
 const cheerio = require('cheerio');
 const files = require('./Files');
@@ -85,23 +91,4 @@ module.exports.crawlFIFARatings = function() {
       }, i * 1000);
     })(i);
   }
-
-  /*files.read('fifa.html', function(html) {
-
-    var doc = cheerio.load(html);
-    var result = [];
-    for (var i = 0; i < 20; i++) {
-      var object = {};
-      object.name = doc('tr').eq(i + 1).find('td').eq(1).text();
-      object.general = parseInt(doc('tr').eq(i + 1).find('td').eq(6).text());
-      object.att = parseInt(doc('tr').eq(i + 1).find('td').eq(3).text());
-      object.def = parseInt(doc('tr').eq(i + 1).find('td').eq(5).text());
-      result.push(object);
-    }
-
-    console.log(result);
-
-  });*/
-
-
 }

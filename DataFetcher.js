@@ -1,7 +1,12 @@
+/**************************
+  This class contains all functions needed to grad data
+**************************/
+
 const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio');
 const files = require('./Files');
+const Game = require('./Game');
 
 module.exports.seasons = [];
 
@@ -27,6 +32,7 @@ module.exports.load = function() {
   }
 }
 
+// Team as string
 module.exports.getLastFiveResultsAt = function(date, team) {
   var time = new Date(date).getTime();
   // return team + ' on ' + date;
@@ -34,11 +40,33 @@ module.exports.getLastFiveResultsAt = function(date, team) {
   // Get the last season with data for this team
   for (var i = module.exports.seasons.length - 1; i > 0; i--) {
     var season = module.exports.seasons[i];
-    if (JSON.stringify(season).indexOf(team.toString()) != -1) {
+    if (JSON.stringify(season).indexOf(team) != -1) {
       for (var x = season.length - 1; x > 0; x--) {
         if (new Date(season[x].Date).getTime() < time) {
-          if (season[x].AwayTeam === team.toString() || season[x].HomeTeam === team.toString()) {
-            results.push(season[x]);
+          if (season[x].HomeTeam === team) {
+            if (season[x].FTR === 'H') {
+              results.push('w');
+            }
+            if (season[x].FTR === 'D') {
+              results.push('d');
+            }
+            if (season[x].FTR === 'A') {
+              results.push('l');
+            }
+            if (results.length >= 5) {
+              return results;
+            }
+          }
+          if (season[x].AwayTeam === team) {
+            if (season[x].FTR === 'A') {
+              results.push('w');
+            }
+            if (season[x].FTR === 'D') {
+              results.push('d');
+            }
+            if (season[x].FTR === 'H') {
+              results.push('l');
+            }
             if (results.length >= 5) {
               return results;
             }
@@ -47,9 +75,11 @@ module.exports.getLastFiveResultsAt = function(date, team) {
       }
     }
   }
-  return [];
+  console.error('Unable to find last matchs ' + team + ' at ' + date + '. Using fake data.');
+  return ['d', 'd', 'd', 'd', 'd'];
 }
 
+// Team as team object, opponent as string
 module.exports.getLastFiveResultsAgainstAt = function(date, team, opponent) {
   var time = new Date(date).getTime();
   // return team + ' on ' + date;
@@ -60,8 +90,30 @@ module.exports.getLastFiveResultsAgainstAt = function(date, team, opponent) {
     if (JSON.stringify(season).indexOf(team.toString()) != -1) {
       for (var x = season.length - 1; x > 0; x--) {
         if (new Date(season[x].Date).getTime() < time) {
-          if ((season[x].HomeTeam === team.toString() && season[x].AwayTeam === opponent.toString()) || (season[x].AwayTeam === team.toString() && season[x].HomeTeam === opponent.toString())) {
-            results.push(season[x]);
+          if (season[x].HomeTeam === team.toString() && season[x].AwayTeam === opponent) {
+            if (season[x].FTR === 'H') {
+              results.push('w');
+            }
+            if (season[x].FTR === 'D') {
+              results.push('d');
+            }
+            if (season[x].FTR === 'A') {
+              results.push('l');
+            }
+            if (results.length >= 5) {
+              return results;
+            }
+          }
+          if (season[x].AwayTeam === team.toString() && season[x].HomeTeam === opponent) {
+            if (season[x].FTR === 'A') {
+              results.push('w');
+            }
+            if (season[x].FTR === 'D') {
+              results.push('d');
+            }
+            if (season[x].FTR === 'H') {
+              results.push('l');
+            }
             if (results.length >= 5) {
               return results;
             }
@@ -70,7 +122,14 @@ module.exports.getLastFiveResultsAgainstAt = function(date, team, opponent) {
       }
     }
   }
-  return [];
+  console.error('Unable to find last matchs ' + team.toString() + ' - ' + opponent + '. Using fake data.');
+  return ['d', 'd', 'd', 'd', 'd'];
+}
+
+module.exports.getLastFiveResultsAgainst = function(team, opponent) {
+  var d = new Date();
+  var s = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay();
+  return module.exports.getLastFiveResultsAgainstAt(s, team, opponent);
 }
 
 module.exports.getLastFiveResults = function(team, callback) {
@@ -102,45 +161,42 @@ module.exports.getLastFiveResults = function(team, callback) {
   // .fc_m_score .defaite ou .victoire
 }
 
-module.exports.getFIFARatingAt = function(team, season, callback) {
-  files.read('data/ratings/' + season + ".json", function(res) {
-    var json = JSON.parse(res);
-    for (var i = 0; i < json.length; i++) {
-      if (json[i].name === team.toString()) {
-        callback(json[i]);
-        return;
-      }
+module.exports.getFIFARatingAt = function(team, season) {
+  var res = files.readSync('data/ratings/' + season + ".json");
+  var json = JSON.parse(res);
+  for (var i = 0; i < json.length; i++) {
+    if (json[i].name === team.toString()) {
+      return json[i];
     }
-    console.error('No FIFA rating for ' + team.toString() + ' season ' + season);
-    callback({
-      name: 'Unfound',
-      att: 70,
-      def: 70,
-      gen: 70
-    });
-  });
+  }
+  console.error('No FIFA rating for ' + team.toString() + ' season ' + season);
+  return {
+    name: 'Unfound',
+    att: 70,
+    def: 70,
+    general: 70
+  };
 }
 
-module.exports.getFIFARating = function(team, callback) {
-  module.exports.getFIFARatingAt(team, '18-19', callback);
+module.exports.getFIFARating = function(team) {
+  return module.exports.getFIFARatingAt(team, '18-19');
 }
 
-module.exports.getStandingAt = function(team, season, day, callback) {
-  files.read('data/standings/' + season + '.json', function(res) {
-    var d = JSON.parse(res)[day - 1];
-    for (var i = 0; i < 20; i++) {
-      if (d[i].name === team.standingName) {
-        callback(d[i]);
-        return;
-      }
+module.exports.getStandingAt = function(team, season, day) {
+  var res = files.readSync('data/standings/' + season + '.json');
+  var d = JSON.parse(res)[day - 1];
+  for (var i = 0; i < 20; i++) {
+    if (d[i].name === team.standingName) {
+      return d[i];
     }
-    console.error('Unable to find standing of ' + team + " season " + season + " day " + day + ". Using fake standing.");
-    callback({
-      name: team.toString(),
-      position: 10,
-      diff: 0
-    });
-  });
+  }
+  console.error('Unable to find standing of ' + team + " season " + season + " day " + day + ". Using fake standing.");
+  return {
+    name: team.toString(),
+    position: 10,
+    diff: 0
+  };
+
 }
 
 module.exports.getStanding = function(team, callback) {
@@ -162,5 +218,49 @@ module.exports.getStanding = function(team, callback) {
       }
     }
   });
+
+}
+
+module.exports.getTeamGamesForSeason = function(team, season, callback) {
+  var data = files.readSync('data/resultats/' + season + ".json");
+  var games = JSON.parse(data);
+  var res = [];
+  for (var i = 0; i < games.length; i++) {
+    if (games[i].HomeTeam === team.toString()) {
+      var r = games[i].FTR;
+      if (r === 'h') {
+        r = 'w';
+      }
+      if (r === 'a') {
+        r = 'l';
+      }
+      res.push(new Game(team, games[i].AwayTeam, true, games[i].Date, r));
+    }
+    if (games[i].AwayTeam === team.toString()) {
+      if (r === 'a') {
+        r = 'w';
+      }
+      if (r === 'h') {
+        r = 'l';
+      }
+      res.push(new Game(team, games[i].HomeTeam, false, games[i].Date, r));
+    }
+  }
+  return res;
+}
+
+// Input as YYYY-MM-DD, output as 16-17
+module.exports.dateToSeason = function(date) {
+  var m = parseInt(date.split('-')[1]);
+  var y = parseInt(date.split('-')[0]);
+  if (m >= 6 && m <= 12) {
+    return (y - 2000) + '-' + (y - 1999);
+  } else {
+    return (y - 2001) + '-' + (y - 2000);
+  }
+}
+
+module.exports.dateToSeasonDay = function(date) {
+  var season = module.exports.dateToSeason(date);
 
 }

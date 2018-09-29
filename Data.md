@@ -13,3 +13,6 @@ https://www.lequipe.fr/Football/FootballFicheClub22.html
 ## FIFA indices
 https://www.fifaindex.com/fr/teams/fifa10_6/?name=olympique+lyonnais&order=desc
 https://www.fifaindex.com/fr/teams/fifa15_14/?league=16&order=desc
+
+## Dates for day
+https://www.lfp.fr/ligue1/calendrier_resultat?sai=78&jour=6
