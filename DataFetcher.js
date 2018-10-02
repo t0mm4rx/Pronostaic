@@ -75,7 +75,7 @@ module.exports.getLastFiveResultsAt = function(date, team) {
       }
     }
   }
-  console.error('Unable to find last matchs ' + team + ' at ' + date + '. Using fake data.');
+  console.error('DataFetcher > Unable to find last matchs ' + team + ' at ' + date + '. Using fake data.');
   return ['d', 'd', 'd', 'd', 'd'];
 }
 
@@ -122,7 +122,7 @@ module.exports.getLastFiveResultsAgainstAt = function(date, team, opponent) {
       }
     }
   }
-  console.error('Unable to find last matchs ' + team.toString() + ' - ' + opponent + '. Using fake data.');
+  console.error('DataFetcher > Unable to find last matchs ' + team.toString() + ' - ' + opponent + '. Using fake data.');
   return ['d', 'd', 'd', 'd', 'd'];
 }
 
@@ -143,7 +143,6 @@ module.exports.getLastFiveResults = function(team, callback) {
     var doc = cheerio.load(body);
     var five = [];
     for (var i = 0; i < 5; i++) {
-      // console.log(doc('#LASTMATCHS .fc_match .fc_m_score').eq(i).html());
       var isWin = doc('#LASTMATCHS .fc_match .fc_m_score').eq(i).hasClass('victoire');
       var isDefeat = doc('#LASTMATCHS .fc_match .fc_m_score').eq(i).hasClass('defaite');
       var res = 'w';
@@ -156,9 +155,6 @@ module.exports.getLastFiveResults = function(team, callback) {
     }
     callback(five);
   });
-  // #LASTMATCHS
-  // .fc_match
-  // .fc_m_score .defaite ou .victoire
 }
 
 module.exports.getFIFARatingAt = function(team, season) {
@@ -169,7 +165,7 @@ module.exports.getFIFARatingAt = function(team, season) {
       return json[i];
     }
   }
-  console.error('No FIFA rating for ' + team.toString() + ' season ' + season);
+  console.error('DataFetcher > No FIFA rating for ' + team.toString() + ' season ' + season);
   return {
     name: 'Unfound',
     att: 70,
@@ -190,7 +186,7 @@ module.exports.getStandingAt = function(team, season, day) {
       return d[i];
     }
   }
-  console.error('Unable to find standing of ' + team + " season " + season + " day " + day + ". Using fake standing.");
+  console.error('DataFetcher > Unable to find standing of ' + team + " season " + season + " day " + day + ". Using fake standing.");
   return {
     name: team.toString(),
     position: 10,
@@ -228,20 +224,27 @@ module.exports.getTeamGamesForSeason = function(team, season, callback) {
   for (var i = 0; i < games.length; i++) {
     if (games[i].HomeTeam === team.toString()) {
       var r = games[i].FTR;
-      if (r === 'h') {
+      if (r === 'H') {
         r = 'w';
       }
-      if (r === 'a') {
+      if (r === 'A') {
         r = 'l';
+      }
+      if (r === 'D') {
+        r = 'd';
       }
       res.push(new Game(team, games[i].AwayTeam, true, games[i].Date, r));
     }
     if (games[i].AwayTeam === team.toString()) {
-      if (r === 'a') {
+      var r = games[i].FTR;
+      if (r === 'A') {
         r = 'w';
       }
-      if (r === 'h') {
+      if (r === 'H') {
         r = 'l';
+      }
+      if (r === 'D') {
+        r = 'd';
       }
       res.push(new Game(team, games[i].HomeTeam, false, games[i].Date, r));
     }

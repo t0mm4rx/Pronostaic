@@ -2,7 +2,7 @@ module.exports = {
   Amiens: { id: 0, toString: function () { return ('Amiens'); }, lequipeId: 44, standingName: 'AmiensSC' },
   Angers: { id: 1, toString: function () { return ('Angers'); }, lequipeId: 374, standingName: 'AngersSCO' },
   Bordeaux: { id: 2, toString: function () { return ('Bordeaux'); }, lequipeId: 18, standingName: 'GirondinsdeBordeaux' },
-  Cean: { id: 3, toString: function () { return ('Caen'); }, lequipeId: 41, standingName: 'SMCaen' },
+  Caen: { id: 3, toString: function () { return ('Caen'); }, lequipeId: 41, standingName: 'SMCaen' },
   Dijon: { id: 4, toString: function () { return ('Dijon'); }, lequipeId: 202, standingName: 'DijonFCO' },
   Guingamp: { id: 5, toString: function () { return ('Guingamp'); }, lequipeId: 37, standingName: 'EAGuingamp' },
   Lille: { id: 6, toString: function () { return ('Lille'); }, lequipeId: 43, standingName: 'LOSC' },
@@ -18,5 +18,13 @@ module.exports = {
   Rennes: { id: 16, toString: function () { return ('Rennes'); }, lequipeId: 14, standingName: 'StadeRennaisFC' },
   StEtienne: { id: 17, toString: function () { return ('St Etienne'); }, lequipeId: 38, standingName: 'ASSaint-Etienne' },
   Strasbourg: { id: 18, toString: function () { return ('Strasbourg'); }, lequipeId: 13, standingName: 'RCStrasbourgAlsace' },
-  Toulouse: { id: 19, toString: function () { return ('Toulouse'); }, lequipeId: 12, standingName: 'ToulouseFC' }
+  Toulouse: { id: 19, toString: function () { return ('Toulouse'); }, lequipeId: 12, standingName: 'ToulouseFC' },
+  getTeam: function (name) {
+    for (var key in module.exports) {
+      if (module.exports[key].toString() === name){
+        return module.exports[key];
+      }
+    }
+    return null;
+  }
 };

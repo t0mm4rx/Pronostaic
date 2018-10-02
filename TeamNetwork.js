@@ -15,7 +15,7 @@ module.exports.loadJSON = function(team, callback) {
 }
 
 module.exports.exportJSON = function(team, network) {
-  console.info("Saving " + team.toString() + ' id : ' + team.id);
+  console.info("TeamNetwork > Saving " + team.toString() + ' id : ' + team.id);
   files.output('data/weights/' + team.id + '.json', JSON.stringify(network.toJSON()));
 }
 
@@ -29,7 +29,7 @@ module.exports.getNetwork = function(team, callback) {
       callback(res);
     });
   } else {
-    var network = new synaptic.Architect.Perceptron(10, 8, 6, 1);
+    var network = new synaptic.Architect.Perceptron(10, 8, 5, 1);
     module.exports.exportJSON(team, network);
     callback(network);
   }
@@ -53,7 +53,7 @@ module.exports.train = function(team) {
     var c = 0;
 
     for (var s = 1; s < seasons.length; s++) {
-      console.log("Training with season " + seasons[s]);
+      console.log("TeamNetwork > Training with season " + seasons[s]);
       var res = data.getTeamGamesForSeason(team, seasons[s]);
       var trainer = new synaptic.Trainer(net);
       var trainingSet = [];
@@ -64,18 +64,26 @@ module.exports.train = function(team) {
           output: res[i].getOutputs()
         });
       }
-      trainer.train(trainingSet);
+      trainer.train(trainingSet, {
+        rate: .1,
+        iterations: 60000,
+        error: .005,
+        shuffle: true
+      });
     }
-    console.log("Trained with " + c + " games.");
+    module.exports.exportJSON(team, net);
+    console.log("TeamNetwork > Trained with " + c + " games.");
   });
 }
 
 module.exports.guess = function(team, opponent, callback) {
   module.exports.getNetwork(team, function(net) {
-    Game.now(team, opponent.toString(), 1, function(inputs) {
+    Game.now(team, opponent.toString(), true, function(inputs) {
+      console.log(inputs);
       var p1 = net.activate(inputs);
       module.exports.getNetwork(opponent, function(net2) {
-        Game.now(opponent, team.toString(), 0, function(inputs2) {
+        Game.now(opponent, team.toString(), false, function(inputs2) {
+          console.log(inputs2);
           var p2 = net2.activate(inputs2);
           callback(p1, p2);
         });

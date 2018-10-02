@@ -8,36 +8,30 @@ network.init();
 
 console.log('------ Pronostaic v1.0 ------');
 
-// console.log(data.getLastFiveResultsAt('2013-02-05', teams.Lyon));
+var command = process.argv[2];
 
-// console.log(data.getLastFiveResultsAgainstAt('2018-02-05', teams.Lyon, teams.Marseille));
+// console.log(data.getLastFiveResultsAgainst(teams.Paris, teams.Strasbourg.toString()));
 
-/* data.getLastFiveResults(teams.Lyon, function (res) {
-  console.log(res);
-});*/
+if (command === "train") {
+  if (teams.getTeam(process.argv[3]) === null) {
+    console.error('Unknown team, exiting');
+    return;
+  }
+  network.train(teams.getTeam(process.argv[3]));
+}
 
-/*data.getFIFARatingAt(teams.Lyon, '15-16', function (res) {
-  console.log(res);
-});*/
+if (command === "guess") {
+  if (teams.getTeam(process.argv[3]) === null || teams.getTeam(process.argv[4]) === null) {
+    console.error('Unknown team, exiting');
+    return;
+  }
 
-// standings.generate();
-
-/*data.getStandingAt(teams.Toulouse, '16-17', 38, function (res) {
-  console.log(res);
-});*/
-
-/* data.getStanding(teams.Marseille, function (res) {
-  console.log(res);
-});*/
-
-// console.log(data.getLastFiveResultsAt('2017-08-05', 'Amiens'));
-
-/*network.train(teams.Reims);
-network.train(teams.Bordeaux);*/
-
-network.guess(teams.Reims, teams.Bordeaux, function (p1, p2) {
-  console.log("P1 : " + p1);
-  console.log("P2 : " + p2);
-});
+  network.guess(teams.getTeam(process.argv[3]), teams.getTeam(process.argv[4]), function(p1, p2) {
+    console.log(teams.getTeam(process.argv[3]).toString() + " : " + p1);
+    console.log(teams.getTeam(process.argv[4]).toString() + " : " + p2);
+  });
+}
 
 // console.log(data.dateToSeason('2014-09-02'));
+
+// I I I I I I I

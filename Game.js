@@ -1,4 +1,5 @@
 var data = require("./DataFetcher");
+var teams = require("./Teams");
 
 function Game(team, opponent, home, date, result) {
 
@@ -102,7 +103,7 @@ Game.now = function(team, opponent, home, callback) {
   inputs.push((home === true ? 1 : 0));
 
   // Five last games
-  data.getLastFiveResults(team.toString(), function(lastGames) {
+  data.getLastFiveResults(team, function(lastGames) {
     var s = 0;
     for (var i = 0; i < 5; i++) {
       if (lastGames[i] === 'w') {
@@ -126,7 +127,7 @@ Game.now = function(team, opponent, home, callback) {
     inputs.push(s / 5);
 
     // Opponent Five last games
-    data.getLastFiveResults(opponent, function(opponentLastGames) {
+    data.getLastFiveResults(teams.getTeam(opponent), function(opponentLastGames) {
       s = 0;
       for (var i = 0; i < 5; i++) {
         if (opponentLastGames[i] === 'w') {
