@@ -1,0 +1,2 @@
+const resultsName = [];
+const standingName = [];

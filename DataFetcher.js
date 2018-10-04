@@ -267,3 +267,14 @@ module.exports.dateToSeasonDay = function(date) {
   var season = module.exports.dateToSeason(date);
 
 }
+
+module.exports.getSeason = function (season) {
+  var data = files.readSync('data/resultats/' + season + ".json");
+  var games = JSON.parse(data);
+  var res = [];
+  for (var i = 0; i < games.length; i++) {
+    res.push(games[i]);
+  }
+  return res;
+
+}

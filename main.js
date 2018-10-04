@@ -3,6 +3,11 @@ const standings = require('./StandingsGenerator');*/
 const teams = require('./Teams');
 const network = require('./TeamNetwork');
 const data = require('./DataFetcher');
+const simulator = require('./Simulator');
+
+// New imports
+const Team2 = require('./Team2');
+const Game2 = require('./Game2');
 
 network.init();
 
@@ -13,11 +18,13 @@ var command = process.argv[2];
 // console.log(data.getLastFiveResultsAgainst(teams.Paris, teams.Strasbourg.toString()));
 
 if (command === "train") {
-  if (teams.getTeam(process.argv[3]) === null) {
+  /*if (teams.getTeam(process.argv[3]) === null) {
     console.error('Unknown team, exiting');
     return;
   }
-  network.train(teams.getTeam(process.argv[3]));
+  network.train(teams.getTeam(process.argv[3]));*/
+
+  new Team2(process.argv[3]).train();
 }
 
 if (command === "guess") {
@@ -26,10 +33,14 @@ if (command === "guess") {
     return;
   }
 
-  network.guess(teams.getTeam(process.argv[3]), teams.getTeam(process.argv[4]), function(p1, p2) {
+  /*network.guess(teams.getTeam(process.argv[3]), teams.getTeam(process.argv[4]), function(p1, p2) {
     console.log(teams.getTeam(process.argv[3]).toString() + " : " + p1);
     console.log(teams.getTeam(process.argv[4]).toString() + " : " + p2);
-  });
+  });*/
+}
+
+if (command === "simulate") {
+  simulator.simulateSeason('17-18');
 }
 
 // console.log(data.dateToSeason('2014-09-02'));
