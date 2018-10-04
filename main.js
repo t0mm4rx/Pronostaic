@@ -1,13 +1,7 @@
-/*
-const standings = require('./StandingsGenerator');*/
-const teams = require('./Teams');
-const network = require('./TeamNetwork');
-const data = require('./DataFetcher');
-const simulator = require('./Simulator');
-
 // New imports
 const Team2 = require('./Team2');
 const Game2 = require('./Game2');
+const network = require('./TeamNetwork');
 
 network.init();
 
@@ -15,16 +9,13 @@ console.log('------ Pronostaic v1.0 ------');
 
 var command = process.argv[2];
 
-// console.log(data.getLastFiveResultsAgainst(teams.Paris, teams.Strasbourg.toString()));
-
 if (command === "train") {
   /*if (teams.getTeam(process.argv[3]) === null) {
     console.error('Unknown team, exiting');
     return;
   }
   network.train(teams.getTeam(process.argv[3]));*/
-
-  new Team2(process.argv[3]).train();
+  network.train(new Team2(process.argv[3]));
 }
 
 if (command === "guess") {
@@ -44,7 +35,7 @@ if (command === "simulate") {
 }
 
 if (command === "test") {
-    console.log(new Team2(process.argv[3]).getCurrentFIFARating());
+    console.log(new Team2(process.argv[3]).getGames('17-18'));
 }
 
 // console.log(data.dateToSeason('2014-09-02'));

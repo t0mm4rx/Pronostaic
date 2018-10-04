@@ -1,12 +1,13 @@
 /**************************
-  This class contains all functions needed to grad data
+  This class contains all functions needed to grab data
 **************************/
 
 const fs = require('fs');
-const request = require('request');
+const request = require('sync-request');
 const cheerio = require('cheerio');
 const files = require('./Files');
-const Game = require('./Game');
+const Game2 = require('./Game2');
+const Team2 = require('./Team2');
 
 module.exports.seasons = [];
 
@@ -87,10 +88,10 @@ module.exports.getLastFiveResultsAgainstAt = function(date, team, opponent) {
   // Get the last season with data for this team
   for (var i = module.exports.seasons.length - 1; i > 0; i--) {
     var season = module.exports.seasons[i];
-    if (JSON.stringify(season).indexOf(team.toString()) != -1) {
+    if (JSON.stringify(season).indexOf(team) != -1) {
       for (var x = season.length - 1; x > 0; x--) {
         if (new Date(season[x].Date).getTime() < time) {
-          if (season[x].HomeTeam === team.toString() && season[x].AwayTeam === opponent) {
+          if (season[x].HomeTeam === team && season[x].AwayTeam === opponent) {
             if (season[x].FTR === 'H') {
               results.push('w');
             }
@@ -104,7 +105,7 @@ module.exports.getLastFiveResultsAgainstAt = function(date, team, opponent) {
               return results;
             }
           }
-          if (season[x].AwayTeam === team.toString() && season[x].HomeTeam === opponent) {
+          if (season[x].AwayTeam === team && season[x].HomeTeam === opponent) {
             if (season[x].FTR === 'A') {
               results.push('w');
             }
@@ -122,7 +123,7 @@ module.exports.getLastFiveResultsAgainstAt = function(date, team, opponent) {
       }
     }
   }
-  console.error('DataFetcher > Unable to find last matchs ' + team.toString() + ' - ' + opponent + '. Using fake data.');
+  console.error('DataFetcher > Unable to find last matchs ' + team + ' - ' + opponent + '. Using fake data.');
   return ['d', 'd', 'd', 'd', 'd'];
 }
 
@@ -132,29 +133,24 @@ module.exports.getLastFiveResultsAgainst = function(team, opponent) {
   return module.exports.getLastFiveResultsAgainstAt(s, team, opponent);
 }
 
-module.exports.getLastFiveResults = function(team, callback) {
+module.exports.getLastFiveResults = function(id) {
   // https://www.lequipe.fr/Football/FootballFicheClub22.html
-  const URL = "https://www.lequipe.fr/Football/FootballFicheClub" + team.lequipeId + ".html";
-  request(URL, function(error, response, body) {
-    if (error) {
-      callback("Unable to get : " + URL + ". Faking 5 last results.")
-      return ['d', 'd', 'd', 'd', 'd'];
+  const URL = "https://www.lequipe.fr/Football/FootballFicheClub" + id + ".html";
+  var body = request('GET', URL).getBody();
+  var doc = cheerio.load(body);
+  var five = [];
+  for (var i = 0; i < 5; i++) {
+    var isWin = doc('#LASTMATCHS .fc_match .fc_m_score').eq(i).hasClass('victoire');
+    var isDefeat = doc('#LASTMATCHS .fc_match .fc_m_score').eq(i).hasClass('defaite');
+    var res = 'w';
+    if (isDefeat) {
+      res = 'l';
+    } else if (!isDefeat && !isWin) {
+      res = 'd';
     }
-    var doc = cheerio.load(body);
-    var five = [];
-    for (var i = 0; i < 5; i++) {
-      var isWin = doc('#LASTMATCHS .fc_match .fc_m_score').eq(i).hasClass('victoire');
-      var isDefeat = doc('#LASTMATCHS .fc_match .fc_m_score').eq(i).hasClass('defaite');
-      var res = 'w';
-      if (isDefeat) {
-        res = 'l';
-      } else if (!isDefeat && !isWin) {
-        res = 'd';
-      }
-      five.push(res);
-    }
-    callback(five);
-  });
+    five.push(res);
+  }
+  return five;
 }
 
 module.exports.getFIFARatingAt = function(team, season) {
@@ -217,36 +213,17 @@ module.exports.getStanding = function(team, callback) {
 
 }
 
-module.exports.getTeamGamesForSeason = function(team, season, callback) {
+module.exports.getTeamGamesForSeason = function(team, season) {
   var data = files.readSync('data/resultats/' + season + ".json");
   var games = JSON.parse(data);
   var res = [];
   for (var i = 0; i < games.length; i++) {
-    if (games[i].HomeTeam === team.toString()) {
-      var r = games[i].FTR;
-      if (r === 'H') {
-        r = 'w';
-      }
-      if (r === 'A') {
-        r = 'l';
-      }
-      if (r === 'D') {
-        r = 'd';
-      }
-      res.push(new Game(team, games[i].AwayTeam, true, games[i].Date, r));
+    console.log(team);
+    if (games[i].HomeTeam === team.name) {
+      res.push(new Game2(team, new Team2(games[i].AwayTeam), games[i].Date, games[i].FTR));
     }
-    if (games[i].AwayTeam === team.toString()) {
-      var r = games[i].FTR;
-      if (r === 'A') {
-        r = 'w';
-      }
-      if (r === 'H') {
-        r = 'l';
-      }
-      if (r === 'D') {
-        r = 'd';
-      }
-      res.push(new Game(team, games[i].HomeTeam, false, games[i].Date, r));
+    if (games[i].AwayTeam === team.name) {
+      res.push(new Game2(new Team2(games[i].HomeTeam), team, games[i].Date, games[i].FTR));
     }
   }
   return res;
@@ -268,7 +245,7 @@ module.exports.dateToSeasonDay = function(date) {
 
 }
 
-module.exports.getSeason = function (season) {
+module.exports.getSeason = function(season) {
   var data = files.readSync('data/resultats/' + season + ".json");
   var games = JSON.parse(data);
   var res = [];

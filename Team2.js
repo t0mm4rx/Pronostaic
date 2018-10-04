@@ -15,6 +15,14 @@ function Team2(name) {
     }
   };
 
+  this.getEquipeID = function() {
+    if (utils.equipeId[this.name] != null) {
+      return utils.equipeId[this.name];
+    } else {
+      return 0;
+    }
+  };
+
   // Int
   this.getStandingAt = function(date) {
 
@@ -30,11 +38,29 @@ function Team2(name) {
   };
 
   // ['w', 'w', 'd', 'l', 'd']
-  this.getCurrentLastGames = function () {};
-  this.getLastGamesAt = function () {};
+  this.getCurrentLastGames = function() {
+    if (this.getEquipeID() != 0) {
+      return data.getLastFiveResults(this.getEquipeID());
+    } else {
+      console.error("Team > Unknow L'Equipe id for " + this.name);
+      return ['d', 'd', 'd', 'd', 'd'];
+    }
+
+  };
+  this.getLastGamesAt = function(date) {
+      return data.getLastFiveResultsAt(date, this.name);
+  };
+  this.getCurrentLastGamesAgainst = function (opponent) {
+    return data.getLastFiveResultsAgainst(this.name, opponent.name);
+  };
+  this.getLastGamesAgainstAt = function (opponent, date) {
+    return data.getLastFiveResultsAgainstAt(date, this.name, opponent.name);
+  };
 
   // [{ opponent: Team, result: ('W', 'D', 'L'), home: (true, false)}, ...]
-  this.getGames = function(season) {};
+  this.getGames = function(season) {
+    return data.getTeamGamesForSeason(this, season);
+  };
 
   // void
   this.train = function() {};
