@@ -165,7 +165,7 @@ module.exports.getFIFARatingAt = function(team, season) {
       return json[i];
     }
   }
-  console.error('DataFetcher > No FIFA rating for ' + team.toString() + ' season ' + season);
+  console.error('DataFetcher > No FIFA rating for ' + team + ' season ' + season);
   return {
     name: 'Unfound',
     att: 70,

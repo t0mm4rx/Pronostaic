@@ -43,6 +43,10 @@ if (command === "simulate") {
   simulator.simulateSeason('17-18');
 }
 
+if (command === "test") {
+    console.log(new Team2(process.argv[3]).getCurrentFIFARating());
+}
+
 // console.log(data.dateToSeason('2014-09-02'));
 
 // I I I I I I I
