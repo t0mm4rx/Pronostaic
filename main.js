@@ -1,6 +1,3 @@
-// New imports
-const Team2 = require('./Team2');
-const Game2 = require('./Game2');
 const network = require('./TeamNetwork');
 
 network.init();
@@ -15,7 +12,7 @@ if (command === "train") {
     return;
   }
   network.train(teams.getTeam(process.argv[3]));*/
-  network.train(new Team2(process.argv[3]));
+  network.train(process.argv[3]);
 }
 
 if (command === "guess") {

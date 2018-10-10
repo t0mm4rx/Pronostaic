@@ -62,9 +62,6 @@ function Team2(name) {
     return data.getTeamGamesForSeason(this, season);
   };
 
-  // void
-  this.train = function() {};
-
 }
 
 module.exports = Team2;

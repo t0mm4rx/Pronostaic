@@ -1,42 +1,43 @@
 const synaptic = require('synaptic');
-const data = require('./DataFetcher');
+// const data = require('./DataFetcher');
 const files = require('./Files');
-const Game = require('./Game');
+
+const Game2 = require('./Game2');
+const Team2 = require('./Team2');
 
 module.exports.init = function() {
   console.log('Loading...');
-  data.load();
+  // data.load();
 }
 
 module.exports.loadJSON = function(team, callback) {
-  files.read('data/weights/' + team.id + '.json', function(res) {
-    callback(synaptic.Network.fromJSON(JSON.parse(res)));
-  });
+  console.info("TeamNetwork > Loading " + team.toString());
+  return synaptic.Network.fromJSON(JSON.parse(files.readSync('data/weights/' + team + '.json')));
 }
 
 module.exports.exportJSON = function(team, network) {
-  console.info("TeamNetwork > Saving " + team.toString() + ' id : ' + team.id);
-  files.output('data/weights/' + team.id + '.json', JSON.stringify(network.toJSON()));
+  console.info("TeamNetwork > Saving " + team);
+  files.output('data/weights/' + team + '.json', JSON.stringify(network.toJSON()));
 }
 
 module.exports.isExisting = function(team) {
-  return files.exists('data/weights/' + team.id + '.json');
+  return files.exists('data/weights/' + team + '.json');
 }
 
-module.exports.getNetwork = function(team, callback) {
+module.exports.getNetwork = function(team) {
   if (module.exports.isExisting(team)) {
-    module.exports.loadJSON(team, function(res) {
-      callback(res);
-    });
+    return module.exports.loadJSON(team);
   } else {
-    var network = new synaptic.Architect.Perceptron(10, 8, 5, 1);
+    console.info("TeamNetwork > No network for " + team + ". Creating one.");
+    var network = new synaptic.Architect.Perceptron(10, 8, 6, 1);
     module.exports.exportJSON(team, network);
-    callback(network);
+    return network;
   }
 }
 
 module.exports.train = function(team) {
 
+  // Filenames of seasons data
   var seasons = [
     '09-10',
     '10-11',
@@ -49,31 +50,33 @@ module.exports.train = function(team) {
     '17-18'
   ];
 
-  module.exports.getNetwork(team, function(net) {
-    var c = 0;
-
-    for (var s = 1; s < seasons.length; s++) {
-      console.log("TeamNetwork > Training with season " + seasons[s]);
-      var res = data.getTeamGamesForSeason(team, seasons[s]);
-      var trainer = new synaptic.Trainer(net);
-      var trainingSet = [];
-      for (var i = 0; i < res.length; i++) {
-        c++;
-        trainingSet.push({
-          input: res[i].getInputs(),
-          output: res[i].getOutputs()
-        });
-      }
-      trainer.train(trainingSet, {
-        rate: .1,
-        iterations: 60000,
-        error: .005,
-        shuffle: true
+  var t = new Team2(team);
+  var net = module.exports.getNetwork(team);
+  var c = 0;
+  console.log(Game2);
+  for (var s = 1; s < seasons.length; s++) {
+    console.log("TeamNetwork > Training with season " + seasons[s]);
+    var games = t.getGames(seasons[s]);
+    var trainer = new synaptic.Trainer(net);
+    var trainingSet = [];
+    for (var i = 0; i < games.length; i++) {
+      var game = new Game2(games[i].home, games[i].away, games[i].date, games[i].score, games[i].day);
+      trainingSet.push({
+        input: game.getInputs(),
+        output: game.getOutputs()
       });
+      c++;
     }
-    module.exports.exportJSON(team, net);
-    console.log("TeamNetwork > Trained with " + c + " games.");
-  });
+    console.log(trainingSet);
+    /*trainer.train(trainingSet, {
+      rate: .1,
+      iterations: 60000,
+      error: .005,
+      shuffle: true
+    });*/
+  }
+  module.exports.exportJSON(team, net);
+  console.log("TeamNetwork > Trained with " + c + " games.");
 }
 
 module.exports.guess = function(team, opponent, callback) {

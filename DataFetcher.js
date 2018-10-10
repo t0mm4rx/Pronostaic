@@ -6,8 +6,6 @@ const fs = require('fs');
 const request = require('sync-request');
 const cheerio = require('cheerio');
 const files = require('./Files');
-const Game2 = require('./Game2');
-const Team2 = require('./Team2');
 
 module.exports.seasons = [];
 
@@ -217,13 +215,13 @@ module.exports.getTeamGamesForSeason = function(team, season) {
   var data = files.readSync('data/resultats/' + season + ".json");
   var games = JSON.parse(data);
   var res = [];
+  var j = 1;
   for (var i = 0; i < games.length; i++) {
-    console.log(team);
     if (games[i].HomeTeam === team.name) {
-      res.push(new Game2(team, new Team2(games[i].AwayTeam), games[i].Date, games[i].FTR));
+      res.push({home: team.name, away: games[i].AwayTeam, date: games[i].Date, result: games[i].FTR, day: j++});
     }
     if (games[i].AwayTeam === team.name) {
-      res.push(new Game2(new Team2(games[i].HomeTeam), team, games[i].Date, games[i].FTR));
+      res.push({home: games[i].HomeTeam, away: team.name, date: games[i].Date, result: games[i].FTR, day: j++});
     }
   }
   return res;

@@ -1,11 +1,7 @@
 var fs = require('fs');
 
 module.exports.output = function(filename, content) {
-  fs.writeFile(filename, content, function(err) {
-    if (err) {
-      return console.log(err);
-    }
-  });
+  fs.writeFileSync(filename, content, 'utf8');
 }
 
 module.exports.read = function(filename, callback) {
