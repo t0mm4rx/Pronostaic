@@ -29,7 +29,7 @@ function Team2(name) {
   };
   this.getCurrentStanding = function() {};
 
-  // { general: 70, att: 70, def: 70s }
+  // { general: 70, att: 70, def: 70 }
   this.getCurrentFIFARating = function() {
     return data.getFIFARating(this.name);
   };
