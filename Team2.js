@@ -1,8 +1,8 @@
-const data = require("./DataFetcher");
+// const data = require("./DataFetcher");
 const utils = require("./Utils");
 
 // Name String
-function Team2(name) {
+function Team2(name, data) {
 
   this.name = name;
 

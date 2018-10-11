@@ -74,7 +74,7 @@ module.exports.getLastFiveResultsAt = function(date, team) {
       }
     }
   }
-  console.error('DataFetcher > Unable to find last matchs ' + team + ' at ' + date + '. Using fake data.');
+  console.error('\x1b[33m%s\x1b[0m','DataFetcher > Unable to find last matchs ' + team + ' at ' + date + '. Using fake data.');
   return ['d', 'd', 'd', 'd', 'd'];
 }
 
@@ -121,7 +121,7 @@ module.exports.getLastFiveResultsAgainstAt = function(date, team, opponent) {
       }
     }
   }
-  console.error('DataFetcher > Unable to find last matchs ' + team + ' - ' + opponent + '. Using fake data.');
+  console.error('\x1b[33m%s\x1b[0m','DataFetcher > Unable to find last matchs ' + team + ' - ' + opponent + '. Using fake data.');
   return ['d', 'd', 'd', 'd', 'd'];
 }
 
@@ -159,7 +159,7 @@ module.exports.getFIFARatingAt = function(team, season) {
       return json[i];
     }
   }
-  console.error('DataFetcher > No FIFA rating for ' + team + ' season ' + season);
+  console.error('\x1b[33m%s\x1b[0m','DataFetcher > No FIFA rating for ' + team + ' season ' + season);
   return {
     name: 'Unfound',
     att: 70,
@@ -180,7 +180,7 @@ module.exports.getStandingAt = function(team, season, day) {
       return d[i];
     }
   }
-  console.error('DataFetcher > Unable to find standing of ' + team + " season " + season + " day " + day + ". Using fake standing.");
+  console.error('\x1b[33m%s\x1b[0m','DataFetcher > Unable to find standing of ' + team + " season " + season + " day " + day + ". Using fake standing.");
   return {
     name: team.toString(),
     position: 10,
@@ -218,10 +218,10 @@ module.exports.getTeamGamesForSeason = function(team, season) {
   var j = 1;
   for (var i = 0; i < games.length; i++) {
     if (games[i].HomeTeam === team.name) {
-      res.push({home: team.name, away: games[i].AwayTeam, date: games[i].Date, result: games[i].FTR, day: j++});
+      res.push({home: team.name, away: games[i].AwayTeam, date: games[i].Date, result: games[i].FTR, day: j++, team: 'home'});
     }
     if (games[i].AwayTeam === team.name) {
-      res.push({home: games[i].HomeTeam, away: team.name, date: games[i].Date, result: games[i].FTR, day: j++});
+      res.push({home: games[i].HomeTeam, away: team.name, date: games[i].Date, result: games[i].FTR, day: j++, team: 'away'});
     }
   }
   return res;
