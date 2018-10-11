@@ -203,24 +203,24 @@ module.exports.Game2 = function(home, away, date, score, day) {
   this.getOutputs = function() {
     if (this.score == "H") {
       return {
-        home: 1,
-        away: 0
+        home: [1],
+        away: [0]
       };
     } else if (this.score == "D") {
       return {
-        home: 0.5,
-        away: 0.5
+        home: [0.5],
+        away: [0.5]
       };
     } else if (this.score == "A") {
       return {
-        home: 0,
-        away: 1
+        home: [0],
+        away: [1]
       };
     } else {
-      console.error("Game > Getting outputs on future game");
+      console.error('\x1b[33m%s\x1b[0m',"Game > Getting outputs on future game");
       return {
-        home: 0.5,
-        away: 0.5
+        home: [0.5],
+        away: [0.5]
       };
     }
   };
